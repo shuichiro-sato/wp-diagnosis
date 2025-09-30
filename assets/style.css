@@ -1,0 +1,419 @@
+/* Base */
+* { box-sizing: border-box; }
+body {
+  font-family: "Noto Sans JP", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: #fff;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #222;
+}
+
+/* Hero */
+.banner {
+  display: none; /* バナー非表示中（表示させたかったらこの1行を削除してください） */
+  width: 100%;
+  text-align: center;
+  background: #fff;
+  padding: 20px 0;
+  margin-bottom: 12px;
+}
+.banner .catch {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+.cta-btn {
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+  color: #000;
+  gap: 8px;
+  line-height: 1.2;
+}
+.cta-btn .small { font-size: 16px; font-weight: 700; }
+.cta-btn .main  { font-size: 34px; font-weight: 900; }
+
+.card { position: relative; } 
+/* 戻るボタン */
+.card .back-btn{
+  position: static;          /* ← フロー内配置に */
+  left: auto; top: auto;     /* 既存指定を無効化 */
+  margin: 8px 0 0 0;    
+  z-index: auto;
+  padding: 6px 10px;
+  font-weight: 800;
+  font-size: 13px;
+  color: #3F6EF5;
+  background: #fff;
+  border: 2px solid #3F6EF5;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  cursor: pointer;
+}
+/* ボタンを置く行（左寄せ） */
+.card-footer{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 4px;
+  margin-bottom: 10px;
+}
+.card .back-btn:active{
+  transform: translateY(1px);
+}
+/* Progress */
+#progressWrap {
+  width: 90%;
+  max-width: 420px;
+  margin: 30px auto 30px;
+}
+.progress-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.progress-bar {
+  flex: 1;
+  height: 10px;
+  background: #E8E8E8;
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #3988FF 0%, #2BD1FF 50%, #2BFFEA 100%);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+.progress-percent {
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* App area */
+#app 
+{ width: 90%; 
+  max-width: 420px; 
+  height: auto;        
+  position: relative; }
+
+/* Card */
+.card {
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  text-align: center;
+  overflow: auto;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  padding: 16px;
+}
+.card-question {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 12px;
+}
+.card-options {
+  display: flex;
+  gap: 10px;
+}
+.option {
+  flex: 1;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  color: #3F42E6;
+  text-shadow: 2px 2px 0px rgba(119, 0, 224, 0.15);
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-align: center;
+  background-size: cover;
+  background-position: center;
+}
+.option::after { content: ""; position: absolute; inset: 0; }
+.option span { display: none; }
+.option:active { transform: scale(0.98); }
+
+/* Inline panel (result/CTA) */
+.inline-panel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  padding: 16px;
+  background: #fff;
+  gap: 12px;
+}
+.inline-panel h2 {
+  font-size: 20px;
+  font-weight: 800;
+  margin: 0;
+  color: #333;
+}
+
+/* Result headline */
+.result-headline {
+  background: #F4F8FF;
+  border: 1px solid #D9E6FF;
+  border-radius: 12px;
+  padding: 12px;
+}
+.type-line {
+  font-size: 18px;
+  font-weight: 900;
+  margin: 0 0 4px 0;
+}
+.type-chip{
+  font-size: 18px;      
+  font-weight: 900;
+  color: #0B5CF3;        
+  background: transparent;
+  border: none;           
+  border-radius: 0;       
+  padding: 0;             
+}
+.type-sub {
+  font-size: 12px;
+  color: #666;
+}
+.type-detail{
+  padding: 10px;
+  border: 1px dashed #E5E9F2;
+  border-radius: 10px;
+  background: #FAFBFF;
+}
+.type-caption{
+  margin: 4px 0 0px;
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 900;
+  color: #0B5CF3;
+}
+
+/* あなたの強み（バー付き） */
+.strengths-wrap {
+  background: #fff;
+  border: 1px solid #EEE;
+  border-radius: 12px;
+  padding: 10px;
+}
+.strengths-title {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  font-weight: 800;
+}
+.strengths-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.strength-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.s-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.s-name {
+  font-weight: 800;
+  color: #0B5CF3;
+}
+.s-value {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #333;
+}
+.bar-outer {
+  height: 10px;
+  background: #F1F3F5;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.bar-inner {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #3988FF 0%, #2BD1FF 50%, #2BFFEA 100%);
+  transition: width .6s ease;
+}
+
+/* Radar Chart（分類用は従来どおり最大9・初期値なし） */
+#radarChart {
+  width: 100% !important;
+  max-width: 420px;
+  height: auto !important;
+  margin: 8px auto 0;
+  display: block;
+}
+
+/* Buttons */
+.result-btn, .result-cta {
+  display: inline-block;
+  padding: 12px 20px;
+  font-weight: 800;
+  border-radius: 999px;
+  border: 0;
+  background: linear-gradient(90deg, #3988FF 0%, #2BD1FF 50%, #2BFFEA 100%);
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  text-align: center;
+}
+.result-cta {
+  border-radius: 10px;
+  background: #fff;
+  color: #3F6EF5;
+  border: 2px solid #3F6EF5;
+  box-shadow: none;
+}
+
+/* Small */
+.note {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+}
+/* ---- 詳細セクション ---- */
+.section {
+  background: #fff;
+  border: 1px solid #EEE;
+  border-radius: 12px;
+  padding: 12px;
+}
+.section + .section { margin-top: 8px; }
+
+.section-title {
+  margin: 0 0 6px 0;
+  font-size: 16px;
+  font-weight: 800;
+  color: #333;
+}
+.section-body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.trait-detail-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.trait-detail {
+  padding: 10px;
+  border: 1px dashed #E5E9F2;
+  border-radius: 10px;
+  background: #FAFBFF;
+}
+.trait-name {
+  font-weight: 800;
+  color: #0B5CF3;
+  margin-bottom: 4px;
+}
+.trait-text {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #333;
+}
+/* ゲート（モザイク＆フォーム） */
+.gate-wrap { position: relative; margin-top: 8px; }
+
+/* モザイク（コンテンツ全体に被せる） */
+.gate-overlay{
+  position: absolute; inset: 0;
+  display: flex; align-items: flex-start;        /* ← 上詰めに */
+  justify-content: center;
+  padding-top: 8px;                               /* ← 上部余白 */
+  backdrop-filter: blur(6px);
+  background: rgba(255,255,255,.6);
+  border-radius: 12px;
+  z-index: 2;                                     /* ← フォームより下 */
+}
+
+/* CTAは上部に表示 */
+.gate-cta{
+  padding: 10px 16px;
+  width: 70%;
+  font-weight: 800;
+  border-radius: 999px;
+  border: 0;
+  background: linear-gradient(90deg,#3988FF 0%,#2BD1FF 50%,#2BFFEA 100%);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,.2);
+  cursor: pointer;
+}
+
+/* フォームはモザイクの“上”に重ねて表示（初期は非表示） */
+.gate-form{
+  display: none;
+  position: absolute;         /* ← 重ねる */
+  top: 8px; left: 8px; right: 8px;
+  z-index: 3;                  /* ← overlay より上 */
+  margin: 0;
+  padding: 12px;
+  border: 1px solid #EEE;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,.15);
+}
+.gate-wrap.open .gate-form{ display: block; }   /* ← クリックで表示 */
+
+/* 既存のフォーム内スタイルはそのままでOK */
+
+.gfield{ margin-bottom: 10px; }
+.glabel{ display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; color: #333; }
+.ginput{
+  width: 100%; padding: 10px 12px; border: 1px solid #DADDE3; border-radius: 8px;
+  font-size: 14px; outline: none;
+}
+.ginput:focus{ border-color:#3F6EF5; box-shadow: 0 0 0 3px rgba(63,110,245,.12); }
+.gerror{ color:#D64545; font-size:12px; margin-top:4px; min-height: 1em; }
+
+.privacy-note{ font-size:12px; color:#666; text-align:center; font-weight: 700;}
+.privacy-note a{ color:#3F6EF5; text-decoration: underline; }
+
+.gsubmit{
+  width: 100%;
+  padding: 14px;
+  font-weight: 900;
+  border-radius: 10px;
+  background: #fff;                  /* ← 反転：白地 */
+  color: #F27C00;                    /* ← オレンジ文字 */
+  border: 2px solid #F27C00;         /* ← オレンジ枠 */
+  cursor: not-allowed;
+  box-shadow: 0 4px 12px rgba(0,0,0,.08);
+  transition: background .2s, color .2s, border-color .2s, box-shadow .2s, transform .02s;
+}
+
+/* 入力完了（送信可）は“オレンジ塗りつぶし＋白文字” */
+.gsubmit.ready{
+  background:#F27C00;                /* ← 塗りつぶし */
+  color:#fff;                        /* ← 白文字 */
+  border-color:#F27C00;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(242,124,0,.25);
+}
+.gsubmit.ready:active{ transform: translateY(1px); }
