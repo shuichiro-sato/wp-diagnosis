@@ -740,7 +740,22 @@ function renderResultInline(){
 }
 
 // === GAS WebApp ===
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyHbwTZm9DsQuxMIJnSUMJOp_jraKo1xmmM0XgCKVXDNWd4HCNZRBJ1i3LM7zp3jE6_/exec';
+//今は無効化
+//const GAS_URL = 'https://script.google.com/macros/s/AKfycbwBa6ypJ5_WFmt8t_wkd2CaWDw6hFLn33JES_JwPYxuG2Bqu_G8fv0mBZ0XsXLYeK07/exec';
+
+async function postToSheet(payload) {
+  const url = (DIAG?.restRoot || '') + 'sheet';
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type':'application/json',
+      'X-WP-Nonce': DIAG?.restNonce || ''
+    },
+    body: JSON.stringify(payload)
+  });
+  // WP 経由なので CORS は発生しない。JSON を素直に読める
+  return res.json();
+}
 
 // ▼ シートの2行目ヘッダー名（シートのテキストと完全一致させる）
 const SHEET_QUESTION_HEADERS = [
@@ -783,45 +798,34 @@ function buildScoreObj() {
 }
 // ①「診断結果を見る」ログ
 async function logResultCTA() {
-  const token = sessionStorage.getItem('sheetToken') || null;
+  const tokenIn = sessionStorage.getItem('sheetToken') || null;
   const { type1 } = classify7Patterns(scores);
   const payload = {
     action: 'result',
-    token,
+    token: tokenIn,
     answers: buildAnswerMap(),
     scores: buildScoreObj(),
     type: type1?.name || ''
   };
-  try{
-    const res = await fetch(GAS_URL, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
-    }).then(r=>r.json());
+  try {
+    const res = await postToSheet(payload);
     if (res?.ok) {
       if (res.token) sessionStorage.setItem('sheetToken', res.token);
       if (res.row)   sessionStorage.setItem('sheetRow', String(res.row));
     } else {
-      console.warn('GAS error(result):', res?.error);
+      console.warn('proxy error(result):', res?.error);
     }
-  }catch(e){ console.warn('fetch error(result):', e); }
+  } catch(e){ console.warn('fetch error(result):', e); }
 }
 
-
-// ②「登録して続きを見る」送信
 async function submitRegisterToSheet({name, phone, email, birth}) {
   const token = sessionStorage.getItem('sheetToken') || null;
   const payload = { action:'register', token, name, phone, email, birth };
   try{
-    const res = await fetch(GAS_URL, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
-    }).then(r=>r.json());
-    if (!res?.ok) console.warn('GAS error(register):', res?.error);
+    const res = await postToSheet(payload);
+    if (!res?.ok) console.warn('proxy error(register):', res?.error);
   }catch(e){ console.warn('fetch error(register):', e); }
 }
-
 
 
 
